@@ -1,0 +1,88 @@
+body { font-family: Arial, sans-serif; text-align: center; 
+    margin: 0;
+padding: 0;
+height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+background-image: url("company_back.jpg");
+background-size: cover;}
+.company-container{
+background-color:white;
+height: 600px;
+width: 700px;
+border-top-right-radius: 20px;
+border-bottom-right-radius: 20px;
+border-top-left-radius: 20px;
+border-bottom-left-radius: 45px;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 10px 10px 10px 10px;
+opacity: 1.5;
+box-shadow: 0 0 20px rgba(14, 14, 14, 0.1);
+}
+
+.login{
+    height: 600px;
+    width:350px;
+    background-image: url("company_login_back.jpg");
+    border-bottom-left-radius: 45px;
+    border-top-right-radius:45px;
+    background-size: cover;
+}
+a{
+    text-decoration: none;
+    color: white;
+}
+.company-container .sign{
+    height: 600px;
+    width:350px;
+    background-color:white; 
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 45px;
+    flex-direction: row;
+    font-size: 30px;
+    color: #383838;
+    margin-left: 10px;
+}
+.sign h1{
+    margin-top: 50%;
+    margin-left: 75px;
+    font-weight: 900;
+    font-family: sans-serif;
+}
+#password{
+    width: 80%;
+    padding: 10px;
+    border: none;
+    border-radius: 45px;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    margin-top: 20px;
+    margin-left: 45px;
+}
+#company_id{
+    width: 80%;
+    padding: 10px;
+    border: none;
+    border-radius: 45px;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    margin-top: 30px;
+    margin-left: 45px;   
+}
+label{
+    visibility: hidden;
+}
+button{
+    
+    background-color: #4CAF50; color: white; border: none; 
+    width: 60%; margin: 15px 15px; padding: 10px;
+    border-radius: 45px;}
+
+button:hover { opacity: 0.8; }
+
+

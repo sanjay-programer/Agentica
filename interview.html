@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Interview System</title>
+    <style>
+        body{
+            background-color: rgb(27, 26, 26);
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        h1{
+            color: white;
+            text-align: center;
+            margin-top: 150px;
+            margin-left: 50px;
+        }
+        #user_input{
+            height: 200px;
+            margin-top: 30px;
+            width: 60%;
+            background-color: rgb(52, 49, 49);
+            margin-left: 280px;
+            border-radius: 45px;
+
+        }
+        input{
+            color: white;
+            height:50px;
+            width:97%;
+            border-radius: 45px;
+            background-color: rgb(52, 49, 49);
+            border: 2px solid rgb(52, 49, 49);
+            padding: 10px 10px 10px 10px;
+            font-size: large;
+            color: white;
+            font-weight: 600;
+
+        }
+        button{
+            margin-left: 45%;
+            height: 50px;
+            width: 100px;
+            border: none;
+            margin-top: 10px;
+            font-size: large;
+            font-weight: 600;
+            background-color: azure;
+            color: black;
+            border-radius: 45px;
+        }
+        #chatbox{
+            color: white; 
+            font: 1em Arial, sans-serif;
+            font-weight: bold;
+        }
+
+    </style>
+    <script>
+        // Extract job_id and candidate_id from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const job_id = urlParams.get("job_id");
+        const candidate_id = urlParams.get("candidate_id");
+
+        async function startInterview() {
+            if (!job_id || !candidate_id) {
+                console.error("Missing job_id or candidate_id in URL");
+                return;
+            }
+
+            let response = await fetch(`http://127.0.0.1:7450/get_candidate_info_start_interivew?job_id=${job_id}&candidate_id=${candidate_id}`);
+            let data = await response.json();
+
+            if (data.error) {
+                console.error("Error: ", data.error);
+                return;
+            }
+
+            document.getElementById("chatbox").innerHTML = `<p><strong>AI:</strong> ${data.ai_message}</p>`;
+        }
+
+        async function sendResponse() {
+            let responseText = document.getElementById("user_response").value;
+
+            if (!responseText.trim()) {
+                alert("Please enter a response!");
+                return;
+            }
+
+            let response = await fetch("http://127.0.0.1:7450/continue_interview/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ response: responseText })
+            });
+
+            let data = await response.json();
+
+            document.getElementById("chatbox").innerHTML += `<p><strong>You:</strong> ${responseText}</p>`;
+            document.getElementById("chatbox").innerHTML += `<p><strong>AI:</strong> ${data.ai_message}</p>`;
+
+            document.getElementById("user_response").value = ""; // Clear input field
+        }
+
+        window.onload = startInterview;
+    </script>
+</head>
+<body>
+    <h1>AI Interview System</h1>
+    <div id="chatbox"></div>
+    <div id="user_input">
+        <input type="text" id="user_response" placeholder="Type your response...">
+    </div>
+    <button onclick="sendResponse()">Send</button>
+</body>
+</html>

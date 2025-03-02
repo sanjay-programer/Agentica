@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Listings</title>
+    <style>
+        body {
+            background-image: url("company_login_back.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: rgb(248, 246, 246); /* Ensure text is visible on black background */
+            width: 100%;
+            font-family: Arial, sans-serif;
+            margin-top: 40px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #output {
+            height: 300px;
+            width: 80%;
+            background-color: transparent;
+            display: inline;
+            justify-content: center;
+            align-items: center;
+            color: rgba(7, 7, 7, 0.859);
+            font-size: large;
+            gap: 50px;
+            font-weight: 600;
+            margin-left: 30px;
+            border-radius: 45px;
+            text-align: center;
+            border: none;
+        }
+        button{
+            padding: 10px 10px 10px 10px;
+            height: 40px;
+            width:20%;
+            font-size: large;
+            font-weight: 600;
+            border-radius: 45px;
+            background-color: rgb(13, 14, 14);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Find Your Job</h1>
+    <div id="output">Loading...</div>
+
+    <script>
+        fetch("http://127.0.0.1:7450/candidate_get_jobs")
+            .then(response => response.json())
+            .then(data => {
+                let outputDiv = document.getElementById("output");
+                outputDiv.innerHTML = ""; // Clear loading text
+
+                if (!data.jobs) {
+                    outputDiv.textContent = "No jobs available!";
+                    return;
+                }
+
+                // Loop through each job and display details
+                data.jobs.forEach(job => {
+                    let jobSection = document.createElement("div");
+                    jobSection.innerHTML = `
+                        <h2>Job ID: ${job.job_id}</h2>
+                        <p><strong>Description:</strong> ${job.job_description}</p>
+                        <p><strong>Criteria:</strong> ${job.hiring_criteria}</p>
+                        <p><strong>Qualification:</strong> ${job.qualification}</p>
+                        <button onclick="applyForJob(${job.job_id})">Apply</button>
+                        <hr>
+                    `;
+                    outputDiv.appendChild(jobSection);
+                });
+            })
+            .catch(error => {
+                document.getElementById("output").textContent = "Error loading data!";
+            });
+
+        function applyForJob(jobId) {
+            window.location.href = `job_application.html?job_id=${jobId}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+body{
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("company_back.jpg");
+}
+.company-container{
+    background-color:white;
+    height: 600px;
+    width: 700px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 45px;
+    display: flex;
+    padding: 10px 10px 10px 10px;
+    opacity: 1.5;
+    box-shadow: 0 0 20px rgba(14, 14, 14, 0.1);
+}
+.login{
+    height: 600px;
+    width:350px;
+    background-image: url("company_login_back.jpg");
+    border-bottom-left-radius: 45px;
+    border-top-right-radius:45px;
+    background-size: cover;
+}
+.company-container .sign{
+    height: 600px;
+    width:350px;
+    background-color:white; 
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 45px;
+    flex-direction: row;
+    font-size: 30px;
+    color: #383838;
+    margin-left: 10px;
+}
+.sign p{
+    margin-top: 50%;
+    margin-left: 75px;
+    font-weight: 900;
+    font-family: sans-serif;
+}
+.login-btn{
+    width: 60%;
+    padding: 10px;
+    border: none;
+    border-radius: 45px;
+    background-color: #000080;
+    color: white;
+    font-size: 16px;
+    margin-top: 20px;
+    margin-left: 75px;
+}
+.signup-btn{
+    width: 60%;
+    padding: 10px;
+    border: none;
+    border-radius: 45px;
+    background-color: #000080;
+    color: white;
+    font-size: 16px;
+    margin-top: 30px;
+    margin-left: 75px;   
+}
+a{
+    text-decoration: none;
+    color: white;
+}
+

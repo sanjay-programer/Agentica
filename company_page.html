@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Jobs</title>
+</head>
+<style>
+        body {
+        background-image: url("company_back_page.jpg");
+        background-size: cover;
+        color: white; /* Ensure text is visible on black background */
+        height: 100vh;
+        font-family: Arial, sans-serif;
+        margin-top: 40px;
+    }
+
+    h1 {
+        text-align: center;
+    }
+    button{
+         margin-left: 40%;
+         padding: 10px 10px 10px 10px;
+         height: 40px;
+         width:20%;
+         font-size: large;
+         font-weight: 600;
+         background-color: rgb(13, 14, 14);
+         color: white;
+         border-radius: 45px;
+
+    }
+    #output {
+        height: 300px;
+        width: 90%;
+        background-color: #28282b;
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-top: 30px;
+        margin-left: 85px;
+        border-radius: 45px;
+        text-align: center;
+
+    }
+
+</style>
+<body>
+    <h1>Your Jobs</h1>
+    <button onclick="location.href='job_posting.html'">Create Job</button>
+    <div id="output">Loading...</div>
+
+    <script>
+        // Get the logged-in company ID from localStorage
+        const companyId = localStorage.getItem("company_id");
+
+        if (!companyId) {
+            document.getElementById("output").innerHTML = "<p>Please log in first.</p>";
+        } else {
+            fetch(`http://127.0.0.1:7450/company_jobs/${companyId}`)
+                .then(response => response.json())
+                .then(data => {
+                    let outputDiv = document.getElementById("output");
+                    outputDiv.innerHTML = ""; // Clear loading text
+
+                    if (!data.jobs || data.jobs.length === 0) {
+                        outputDiv.innerHTML = "<p>No jobs posted yet!</p>";
+                        return;
+                    }
+
+                    data.jobs.forEach(job => {
+                        let jobSection = document.createElement("div");
+                        jobSection.innerHTML = `
+                            <h2>Job ID: ${job.job_id}</h2>
+                            <p><strong>Description:</strong> ${job.job_description}</p>
+                            <p><strong>Criteria:</strong> ${job.hiring_criteria}</p>
+                            <p><strong>Qualification:</strong> ${job.qualification}</p>
+                            <hr>
+                        `;
+                        outputDiv.appendChild(jobSection);
+                    });
+                })
+                .catch(error => {
+                    document.getElementById("output").innerHTML = "<p>Error loading data!</p>";
+                });
+        }
+    </script>
+</body>
+</html>

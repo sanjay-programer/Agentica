@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Post</title>
+    <style>
+        body {
+            background-image: url("job_back.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin-top: 150px;
+            animation: animate 3s ease-in-out infinite;
+        }
+        h2 {
+            font-size: 30px;
+            font-weight: 800;
+            text-decoration: solid;
+        }
+        form {
+            border: 3px solid black;
+            padding: 20px;
+            width: 300px;
+            background-color: transparent;
+            border-radius: 10px;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 45px;
+            border: 3px solid black;
+            background-color: black;
+            opacity: 0.8;
+            color: white;
+        }
+        button {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 45px;
+            border: 3px solid black;
+            background-color: #000080;
+            color: white;
+            font-weight: 800;
+            animation: animate 3s ease-in-out infinite;
+        }
+        a{
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+   <center>
+       <h2>Job Posting</h2>
+       <form id="postForm">
+           <br><input type="text" id="company-id" name="company_id" placeholder="Enter Company ID"><br>
+           <br><input type="text" id="job-description" name="job_description" placeholder="Enter description"><br>
+           <br><input type="text" id="hiring-criteria" name="hiring_criteria" placeholder="Enter criteria"><br>
+           <br><input type="text" id="qualification" name="qualification" placeholder="Enter qualification"><br>
+           <button type="submit">Send</button>
+       </form>
+
+       <p id="response"></p>
+   </center>
+
+    <script>
+        document.getElementById("postForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            let companyId = document.getElementById("company-id").value;
+            let jobDescription = document.getElementById("job-description").value;
+            let hiringCriteria = document.getElementById("hiring-criteria").value;
+            let qualifications = document.getElementById("qualification").value;
+
+            let response = await fetch("http://127.0.0.1:7450/job_posting", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    "company_id": parseInt(companyId),
+                    "job_description": jobDescription,
+                    "hiring_criteria": hiringCriteria,
+                    "qualification": qualifications
+                })
+            });
+
+            let data = await response.json();
+            if (data.error) {
+                document.getElementById("response").innerText = "Error: " + data.error;
+            } else {
+                document.getElementById("response").innerText = "Job ID: " + data.job_id + " (Company ID: " + data.company_id + ")";
+            }
+        });
+    </script>
+</body>
+</html>

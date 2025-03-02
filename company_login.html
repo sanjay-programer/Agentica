@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Login</title>
+    <link rel="stylesheet" href="company_login.css">
+</head>
+<body>
+    <div class="company-container">
+        <div class="login"></div>
+        <div class="signup">
+            <h1>Company Login</h1>
+            <form id="loginForm">
+                <label for="company_id">Company ID:</label>
+                <input type="number" id="company_id" required placeholder="Company Id">
+                <br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" required placeholder="Password">
+                <br>
+                <button type="submit">Login</button>
+            </form>
+            <p id="message"></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const companyId = document.getElementById("company_id").value;
+            const password = document.getElementById("password").value;
+
+            fetch("http://127.0.0.1:7450/company_login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ company_id: parseInt(companyId), password: password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.company_id) {
+                    localStorage.setItem("company_id", data.company_id);
+                    document.getElementById("message").innerText = "Login successful!";
+                    setTimeout(() => {
+                        window.location.href = "company_page.html"; // Redirect to company jobs page
+                    }, 1000);
+                } else {
+                    document.getElementById("message").innerText = "Invalid credentials!";
+                }
+            })
+            .catch(error => {
+                document.getElementById("message").innerText = "Error logging in!";
+            });
+        });
+    </script>
+</body>
+</html>

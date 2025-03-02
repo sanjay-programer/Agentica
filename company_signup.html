@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Signup</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; 
+            margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("company_back.jpg");}
+        .company-container{
+    background-color:white;
+    height: 600px;
+    width: 700px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 45px;
+    display: flex;
+    padding: 10px 10px 10px 10px;
+    opacity: 1.5;
+    box-shadow: 0 0 20px rgba(14, 14, 14, 0.1);
+}
+.login{
+    height: 600px;
+    width:350px;
+    background-image: url("company_login_back.jpg");
+    border-bottom-left-radius: 45px;
+    border-top-right-radius:45px;
+    background-size: cover;
+}
+        .container { width: 300px; margin: auto; padding: 20px; border: 2px solid transparent; }
+        input, button { width: 80%; margin: 10px 10px; padding: 10px;
+        border-radius: 45px;}
+        button { background-color: #4CAF50; color: white; border: none; }
+        button:hover { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    
+    <div class="company-container">
+        <div class="login"></div>
+        <div class="container">
+           <h2>Company Signup</h2>
+           <input type="text" id="company_name" placeholder="Company Name" required>
+           <input type="password" id="password" placeholder="Password" required>
+           <button onclick="registerCompany()">Register</button>
+           <p id="message"></p>
+        </div>
+    </div>
+    <script>
+        async function registerCompany() {
+            const company_name = document.getElementById("company_name").value;
+            const password = document.getElementById("password").value;
+
+            const response = await fetch("http://127.0.0.1:7450/register_company", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ company_name, password })
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                document.getElementById("message").innerText =
+                    `Registered! Your Company ID is: ${data.company_id}`;
+            } else {
+                document.getElementById("message").innerText = data.detail;
+            }
+        }
+    </script>
+
+</body>
+</html>
